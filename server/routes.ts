@@ -74,9 +74,103 @@ Examples:
       return { action: "unknown", message: message };
     }
   } catch (error) {
-    console.error("Error parsing with OpenAI:", error);
-    return { action: "unknown", message: message, error: error.message };
+    console.error("OpenAI parsing failed, using fallback parser:", error);
+    return parseWhatsAppCommandFallback(message);
   }
+}
+
+function parseWhatsAppCommandFallback(message: string): any {
+  const lowerMessage = message.toLowerCase();
+  
+  // Revenue check patterns
+  if (lowerMessage.includes('revenue') || lowerMessage.includes('earning') || lowerMessage.includes('income')) {
+    return {
+      action: "revenue_check",
+      details: lowerMessage.includes('today') ? "today" : "general"
+    };
+  }
+  
+  // Occupancy check patterns
+  if (lowerMessage.includes('occupancy') || lowerMessage.includes('occupied') || lowerMessage.includes('full')) {
+    return {
+      action: "occupancy_check",
+      details: lowerMessage.includes('month') ? "month" : "current"
+    };
+  }
+  
+  // Room booking patterns
+  if (lowerMessage.includes('book') || lowerMessage.includes('reserve')) {
+    const roomMatch = message.match(/room\s+(\d+)/i);
+    const nameMatch = message.match(/for\s+([a-zA-Z\s]+)/i);
+    
+    return {
+      action: "book_room",
+      room: roomMatch ? roomMatch[1] : null,
+      guest_name: nameMatch ? nameMatch[1].trim() : "Guest",
+      start_date: new Date().toISOString().split('T')[0],
+      end_date: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+      details: "Basic booking command via fallback parser"
+    };
+  }
+  
+  // Check-in patterns
+  if (lowerMessage.includes('check in') || lowerMessage.includes('checkin')) {
+    const roomMatch = message.match(/room\s+(\d+)/i);
+    const nameMatch = message.match(/(?:check in|checkin)\s+([a-zA-Z\s]+)\s+to/i);
+    
+    return {
+      action: "check_in",
+      room: roomMatch ? roomMatch[1] : null,
+      guest_name: nameMatch ? nameMatch[1].trim() : null
+    };
+  }
+  
+  // Check-out patterns  
+  if (lowerMessage.includes('check out') || lowerMessage.includes('checkout')) {
+    const roomMatch = message.match(/room\s+(\d+)/i);
+    
+    return {
+      action: "check_out",
+      room: roomMatch ? roomMatch[1] : null
+    };
+  }
+  
+  // Block room patterns
+  if (lowerMessage.includes('block')) {
+    const roomMatch = message.match(/room\s+(\d+)/i);
+    
+    return {
+      action: "block_room",
+      room: roomMatch ? roomMatch[1] : null,
+      details: "maintenance"
+    };
+  }
+  
+  // Unblock room patterns
+  if (lowerMessage.includes('unblock')) {
+    const roomMatch = message.match(/room\s+(\d+)/i);
+    
+    return {
+      action: "unblock_room", 
+      room: roomMatch ? roomMatch[1] : null
+    };
+  }
+  
+  // Room status patterns
+  if (lowerMessage.includes('status') || lowerMessage.includes('what')) {
+    const roomMatch = message.match(/room\s+(\d+)/i);
+    
+    return {
+      action: "room_status",
+      room: roomMatch ? roomMatch[1] : null
+    };
+  }
+  
+  return {
+    action: "unknown",
+    message: message,
+    fallback_used: true
+  };
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {

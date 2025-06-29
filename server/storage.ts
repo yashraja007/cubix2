@@ -92,12 +92,12 @@ export class MemStorage implements IStorage {
 
     // Create sample rooms
     const sampleRooms: Room[] = [
-      { id: this.currentId.rooms++, number: "101", type: "standard", status: "occupied", floor: 1, maxOccupancy: 2, pricePerNight: "120.00", amenities: ["wifi", "tv"], blockedUntil: null, blockReason: null },
-      { id: this.currentId.rooms++, number: "102", type: "standard", status: "available", floor: 1, maxOccupancy: 2, pricePerNight: "120.00", amenities: ["wifi", "tv"], blockedUntil: null, blockReason: null },
-      { id: this.currentId.rooms++, number: "103", type: "deluxe", status: "maintenance", floor: 1, maxOccupancy: 3, pricePerNight: "180.00", amenities: ["wifi", "tv", "minibar"], blockedUntil: null, blockReason: null },
-      { id: this.currentId.rooms++, number: "104", type: "deluxe", status: "occupied", floor: 1, maxOccupancy: 3, pricePerNight: "180.00", amenities: ["wifi", "tv", "minibar"], blockedUntil: null, blockReason: null },
-      { id: this.currentId.rooms++, number: "105", type: "suite", status: "blocked", floor: 1, maxOccupancy: 4, pricePerNight: "300.00", amenities: ["wifi", "tv", "minibar", "jacuzzi"], blockedUntil: "2025-07-17", blockReason: "Renovation" },
-      { id: this.currentId.rooms++, number: "106", type: "standard", status: "available", floor: 1, maxOccupancy: 2, pricePerNight: "120.00", amenities: ["wifi", "tv"], blockedUntil: null, blockReason: null },
+      { id: this.currentId.rooms++, number: "101", type: "standard", status: "occupied", floor: 1, maxOccupancy: 2, pricePerNight: "2500.00", amenities: ["wifi", "tv"], blockedUntil: null, blockReason: null },
+      { id: this.currentId.rooms++, number: "102", type: "standard", status: "available", floor: 1, maxOccupancy: 2, pricePerNight: "2500.00", amenities: ["wifi", "tv"], blockedUntil: null, blockReason: null },
+      { id: this.currentId.rooms++, number: "103", type: "deluxe", status: "maintenance", floor: 1, maxOccupancy: 3, pricePerNight: "3500.00", amenities: ["wifi", "tv", "minibar"], blockedUntil: null, blockReason: null },
+      { id: this.currentId.rooms++, number: "104", type: "deluxe", status: "occupied", floor: 1, maxOccupancy: 3, pricePerNight: "3500.00", amenities: ["wifi", "tv", "minibar"], blockedUntil: null, blockReason: null },
+      { id: this.currentId.rooms++, number: "105", type: "suite", status: "blocked", floor: 1, maxOccupancy: 4, pricePerNight: "6500.00", amenities: ["wifi", "tv", "minibar", "jacuzzi"], blockedUntil: "2025-07-17", blockReason: "Renovation" },
+      { id: this.currentId.rooms++, number: "106", type: "standard", status: "available", floor: 1, maxOccupancy: 2, pricePerNight: "2500.00", amenities: ["wifi", "tv"], blockedUntil: null, blockReason: null },
       { id: this.currentId.rooms++, number: "201", type: "deluxe", status: "occupied", floor: 2, maxOccupancy: 3, pricePerNight: "180.00", amenities: ["wifi", "tv", "minibar"], blockedUntil: null, blockReason: null },
       { id: this.currentId.rooms++, number: "202", type: "deluxe", status: "occupied", floor: 2, maxOccupancy: 3, pricePerNight: "180.00", amenities: ["wifi", "tv", "minibar"], blockedUntil: null, blockReason: null },
       { id: this.currentId.rooms++, number: "203", type: "standard", status: "available", floor: 2, maxOccupancy: 2, pricePerNight: "120.00", amenities: ["wifi", "tv"], blockedUntil: null, blockReason: null },
@@ -110,7 +110,7 @@ export class MemStorage implements IStorage {
 
     // Create sample guests
     const sampleGuests: Guest[] = [
-      { id: this.currentId.guests++, name: "Arjun Sharma", email: "arjun.sharma@email.com", phone: "+919876543210", idNumber: "AADH001", address: "123 MG Road, Mumbai", createdAt: new Date() },
+      { id: this.currentId.guests++, name: "Cubix", email: "cubix@email.com", phone: "+919876543210", idNumber: "AADH001", address: "123 MG Road, Mumbai", createdAt: new Date() },
       { id: this.currentId.guests++, name: "Priya Patel", email: "priya.patel@email.com", phone: "+919876543211", idNumber: "AADH002", address: "456 Brigade Road, Bangalore", createdAt: new Date() },
       { id: this.currentId.guests++, name: "Rajesh Kumar", email: "rajesh.kumar@email.com", phone: "+919876543212", idNumber: "AADH003", address: "789 CP, New Delhi", createdAt: new Date() },
     ];

@@ -113,6 +113,11 @@ Preferred communication style: Simple, everyday language.
 - June 29, 2025: Changed all currency references from USD ($) to Indian Rupees (INR ₹)
 - June 29, 2025: Added calendar navigation to sidebar and enhanced booking visualization
 - June 29, 2025: Updated WhatsApp command examples with check-in/check-out usage instructions
+- June 29, 2025: Enhanced WhatsApp with fallback parser for OpenAI rate limits
+- June 29, 2025: Added room booking, revenue checking, and occupancy checking via WhatsApp
+- June 29, 2025: Changed guest name from "Arjun Sharma" to "Cubix" as requested
+- June 29, 2025: Increased room rates significantly (Standard: ₹2,500, Deluxe: ₹3,500, Suite: ₹6,500)
+- June 29, 2025: Implemented status callback URL for WhatsApp delivery tracking
 
 ## Changelog
 

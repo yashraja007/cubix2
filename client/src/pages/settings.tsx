@@ -325,6 +325,24 @@ export default function Settings() {
                     </p>
                   </div>
                   
+                  <div>
+                    <Label htmlFor="statusCallbackUrl">Status Callback URL</Label>
+                    <div className="flex space-x-2">
+                      <Input
+                        id="statusCallbackUrl"
+                        value={`${window.location.origin}/api/whatsapp/status`}
+                        readOnly
+                        className="bg-gray-50"
+                      />
+                      <Button variant="outline" onClick={() => navigator.clipboard.writeText(`${window.location.origin}/api/whatsapp/status`)}>
+                        <Copy size={16} />
+                      </Button>
+                    </div>
+                    <p className="text-sm text-gray-600 mt-1">
+                      Configure this URL for delivery status updates in Twilio
+                    </p>
+                  </div>
+                  
                   <div className="space-y-4">
                     <h4 className="font-medium">API Configuration</h4>
                     <div className="grid grid-cols-1 gap-6">

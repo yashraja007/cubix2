@@ -423,6 +423,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // WhatsApp Status Callback
+  app.post("/api/whatsapp/status", async (req: Request, res: Response) => {
+    try {
+      const { MessageSid, MessageStatus, From, To, ErrorCode, ErrorMessage } = req.body;
+      
+      console.log("WhatsApp Status Update:", {
+        messageSid: MessageSid,
+        status: MessageStatus,
+        from: From,
+        to: To,
+        error: ErrorCode ? `${ErrorCode}: ${ErrorMessage}` : null
+      });
+
+      // You can store status updates in database if needed
+      // await storage.updateWhatsAppMessageStatus(MessageSid, MessageStatus);
+
+      res.status(200).send("OK");
+    } catch (error) {
+      console.error("WhatsApp status callback error:", error);
+      res.status(500).send("Internal server error");
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

@@ -174,6 +174,17 @@ function parseWhatsAppCommandFallback(message: string): any {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Get users
+  app.get("/api/users", async (req: Request, res: Response) => {
+    try {
+      const users = await storage.getUser(1); // Get admin user
+      res.json([users]); // Return as array for compatibility
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      res.status(500).json({ error: "Failed to fetch users" });
+    }
+  });
+
   // Dashboard stats
   app.get("/api/dashboard/stats", async (req: Request, res: Response) => {
     try {

@@ -118,6 +118,8 @@ Preferred communication style: Simple, everyday language.
 - June 29, 2025: Changed guest name from "Arjun Sharma" to "Cubix" as requested
 - June 29, 2025: Increased room rates significantly (Standard: ₹2,500, Deluxe: ₹3,500, Suite: ₹6,500)
 - June 29, 2025: Implemented status callback URL for WhatsApp delivery tracking
+- June 29, 2025: Changed guest name from "Cubix" to "Rahul" as requested
+- June 29, 2025: Updated hotel owner name to "Cubix" in admin account and UI
 
 ## Changelog
 

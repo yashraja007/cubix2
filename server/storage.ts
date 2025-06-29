@@ -110,7 +110,7 @@ export class MemStorage implements IStorage {
 
     // Create sample guests
     const sampleGuests: Guest[] = [
-      { id: this.currentId.guests++, name: "Cubix", email: "cubix@email.com", phone: "+919876543210", idNumber: "AADH001", address: "123 MG Road, Mumbai", createdAt: new Date() },
+      { id: this.currentId.guests++, name: "Rahul", email: "rahul@email.com", phone: "+919876543210", idNumber: "AADH001", address: "123 MG Road, Mumbai", createdAt: new Date() },
       { id: this.currentId.guests++, name: "Priya Patel", email: "priya.patel@email.com", phone: "+919876543211", idNumber: "AADH002", address: "456 Brigade Road, Bangalore", createdAt: new Date() },
       { id: this.currentId.guests++, name: "Rajesh Kumar", email: "rajesh.kumar@email.com", phone: "+919876543212", idNumber: "AADH003", address: "789 CP, New Delhi", createdAt: new Date() },
     ];

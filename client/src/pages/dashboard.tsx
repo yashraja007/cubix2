@@ -99,7 +99,7 @@ export default function Dashboard() {
                 <div className="flex items-center space-x-3">
                   <Avatar className="w-8 h-8">
                     <AvatarFallback className="bg-blue-600 text-white text-sm font-medium">
-                      JD
+                      C
                     </AvatarFallback>
                   </Avatar>
                   <div>

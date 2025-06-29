@@ -327,21 +327,28 @@ export default function Settings() {
                   
                   <div className="space-y-4">
                     <h4 className="font-medium">API Configuration</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-6">
                       <div>
-                        <Label htmlFor="openaiKey">OpenAI API Key</Label>
+                        <Label htmlFor="openaiKey">ChatGPT/OpenAI API Key</Label>
                         <div className="flex space-x-2">
                           <Input
                             id="openaiKey"
                             type="password"
-                            placeholder="sk-..."
+                            placeholder="sk-proj-... (Enter your OpenAI API key)"
                             className="bg-gray-50"
                           />
                           <Badge variant={import.meta.env.VITE_OPENAI_API_KEY ? "default" : "destructive"}>
-                            {import.meta.env.VITE_OPENAI_API_KEY ? "Configured" : "Missing"}
+                            {import.meta.env.VITE_OPENAI_API_KEY ? "✓ Active" : "⚠ Missing"}
                           </Badge>
+                          <Button variant="outline" size="sm">
+                            Test Key
+                          </Button>
                         </div>
+                        <p className="text-xs text-gray-500 mt-1">
+                          Required for parsing WhatsApp commands. Get your API key from: platform.openai.com/api-keys
+                        </p>
                       </div>
+                      
                       <div>
                         <Label htmlFor="twilioToken">Twilio Auth Token</Label>
                         <div className="flex space-x-2">
@@ -352,8 +359,36 @@ export default function Settings() {
                             className="bg-gray-50"
                           />
                           <Badge variant={import.meta.env.VITE_TWILIO_AUTH_TOKEN ? "default" : "destructive"}>
-                            {import.meta.env.VITE_TWILIO_AUTH_TOKEN ? "Configured" : "Missing"}
+                            {import.meta.env.VITE_TWILIO_AUTH_TOKEN ? "✓ Active" : "⚠ Missing"}
                           </Badge>
+                          <Button variant="outline" size="sm">
+                            Test Token
+                          </Button>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1">
+                          Required for WhatsApp webhook integration. Get from: console.twilio.com
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="p-4 bg-blue-50 rounded-lg border border-blue-200 mt-6">
+                      <h4 className="font-medium text-blue-900 mb-3">Configuration Status</h4>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex items-center justify-between">
+                          <span>WhatsApp Commands</span>
+                          <Badge variant={import.meta.env.VITE_OPENAI_API_KEY && import.meta.env.VITE_TWILIO_AUTH_TOKEN ? "default" : "destructive"}>
+                            {import.meta.env.VITE_OPENAI_API_KEY && import.meta.env.VITE_TWILIO_AUTH_TOKEN ? "✓ Ready" : "⚠ Needs Setup"}
+                          </Badge>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>Check-in via WhatsApp</span>
+                          <Badge variant={import.meta.env.VITE_OPENAI_API_KEY ? "default" : "destructive"}>
+                            {import.meta.env.VITE_OPENAI_API_KEY ? "✓ Enabled" : "⚠ Disabled"}
+                          </Badge>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>Webhook Endpoint</span>
+                          <Badge variant="default">✓ Active</Badge>
                         </div>
                       </div>
                     </div>

@@ -78,7 +78,7 @@ export default function StatsCards({ stats }: StatsCardsProps) {
             <div>
               <p className="text-sm font-medium text-gray-600">Revenue Today</p>
               <p className="text-3xl font-bold text-gray-900">
-                ${stats.revenueToday.toFixed(0)}
+                ₹{stats.revenueToday.toFixed(0)}
               </p>
             </div>
             <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center">

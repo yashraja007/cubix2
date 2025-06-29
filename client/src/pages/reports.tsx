@@ -189,7 +189,7 @@ export default function Reports() {
                   <div>
                     <p className="text-sm font-medium text-gray-600">Revenue Today</p>
                     <p className="text-3xl font-bold text-gray-900">
-                      ${stats?.revenueToday.toFixed(0) || 0}
+                      ₹{stats?.revenueToday.toFixed(0) || 0}
                     </p>
                   </div>
                   <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center">
@@ -248,7 +248,7 @@ export default function Reports() {
                         <span className="capitalize font-medium">{type}</span>
                       </div>
                       <div className="text-right">
-                        <div className="text-2xl font-bold">${revenue.toFixed(0)}</div>
+                        <div className="text-2xl font-bold">₹{revenue.toFixed(0)}</div>
                         <div className="text-sm text-gray-500">
                           {Object.values(revenueByRoomType).reduce((a, b) => a + b, 0) > 0 
                             ? ((revenue / Object.values(revenueByRoomType).reduce((a, b) => a + b, 0)) * 100).toFixed(0)

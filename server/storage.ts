@@ -390,6 +390,7 @@ export class MemStorage implements IStorage {
     totalRooms: number;
     occupiedRooms: number;
     checkinsToday: number;
+    checkoutsToday: number;
     revenueToday: number;
   }> {
     const rooms = Array.from(this.rooms.values());
@@ -409,10 +410,16 @@ export class MemStorage implements IStorage {
         booking.actualCheckIn.toISOString().split('T')[0] === today)
       .reduce((total, booking) => total + parseFloat(booking.paidAmount || "0"), 0);
 
+    const checkoutsToday = bookings
+      .filter(booking => booking.actualCheckOut && 
+        booking.actualCheckOut.toISOString().split('T')[0] === today)
+      .length;
+
     return {
       totalRooms,
       occupiedRooms,
       checkinsToday,
+      checkoutsToday,
       revenueToday
     };
   }

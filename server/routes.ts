@@ -30,17 +30,25 @@ async function parseWhatsAppCommand(message: string): Promise<any> {
             
 Return JSON in this format:
 {
-  "action": "block_room|unblock_room|book_room|check_in|check_out|room_status|unknown",
+  "action": "block_room|unblock_room|book_room|check_in|check_out|room_status|revenue_check|occupancy_check|unknown",
   "room": "room_number_if_mentioned",
   "guest_name": "guest_name_if_mentioned",
   "start_date": "YYYY-MM-DD_if_mentioned",
   "end_date": "YYYY-MM-DD_if_mentioned",
+  "check_in_time": "HH:MM_if_mentioned",
+  "check_out_time": "HH:MM_if_mentioned",
+  "guest_phone": "phone_number_if_mentioned",
   "details": "any_additional_details"
 }
 
 Examples:
-"Block room 205 from July 15 to July 17" -> {"action": "block_room", "room": "205", "start_date": "2025-07-15", "end_date": "2025-07-17"}
+"Book room 102 for devansh from Dec 30 to Jan 2" -> {"action": "book_room", "room": "102", "guest_name": "devansh", "start_date": "2025-12-30", "end_date": "2026-01-02"}
+"Book room 205 for John Smith tomorrow 3pm to Friday 11am" -> {"action": "book_room", "room": "205", "guest_name": "John Smith", "start_date": "2025-06-30", "end_date": "2025-07-04", "check_in_time": "15:00", "check_out_time": "11:00"}
+"Check revenue today" -> {"action": "revenue_check", "details": "today"}
+"What's the occupancy rate?" -> {"action": "occupancy_check"}
+"Hotel occupancy this month" -> {"action": "occupancy_check", "details": "month"}
 "Check in John Smith to room 108" -> {"action": "check_in", "room": "108", "guest_name": "John Smith"}
+"Block room 205 from July 15 to July 17" -> {"action": "block_room", "room": "205", "start_date": "2025-07-15", "end_date": "2025-07-17"}
 "Room 203 maintenance complete" -> {"action": "room_status", "room": "203", "details": "maintenance complete"}`
           },
           {
@@ -392,8 +400,104 @@ export async function registerRoutes(app: Express): Promise<Server> {
             }
             break;
 
+          case "book_room":
+            if (parsedAction.room && parsedAction.guest_name && parsedAction.start_date && parsedAction.end_date) {
+              // Find the room
+              const room = await storage.getRoomByNumber(parsedAction.room);
+              if (!room) {
+                responseMessage = `❌ Could not find room ${parsedAction.room}`;
+                commandStatus = "failed";
+                break;
+              }
+
+              // Check if room is available for the dates
+              const bookings = await storage.getBookings();
+              const conflictingBooking = bookings.find(booking => 
+                booking.room.number === parsedAction.room &&
+                booking.status !== "cancelled" &&
+                booking.status !== "checked_out" &&
+                (
+                  (parsedAction.start_date <= booking.checkOutDate && parsedAction.end_date >= booking.checkInDate)
+                )
+              );
+
+              if (conflictingBooking) {
+                responseMessage = `❌ Room ${parsedAction.room} is not available from ${parsedAction.start_date} to ${parsedAction.end_date}`;
+                commandStatus = "failed";
+                break;
+              }
+
+              // Create or find guest
+              const guests = await storage.getGuests();
+              let guest = guests.find(g => g.name.toLowerCase().includes(parsedAction.guest_name.toLowerCase()));
+              
+              if (!guest) {
+                guest = await storage.createGuest({
+                  name: parsedAction.guest_name,
+                  phone: parsedAction.guest_phone || null,
+                  email: null,
+                  idNumber: null,
+                  address: null
+                });
+              }
+
+              // Calculate total amount (assuming 1 night stay for simplicity)
+              const nights = Math.max(1, Math.ceil((new Date(parsedAction.end_date).getTime() - new Date(parsedAction.start_date).getTime()) / (1000 * 60 * 60 * 24)));
+              const totalAmount = parseFloat(room.pricePerNight) * nights;
+
+              // Create booking
+              const booking = await storage.createBooking({
+                guestId: guest.id,
+                roomId: room.id,
+                checkInDate: parsedAction.start_date,
+                checkOutDate: parsedAction.end_date,
+                totalAmount: totalAmount.toString(),
+                paidAmount: "0",
+                status: "confirmed",
+                notes: `Booked via WhatsApp${parsedAction.check_in_time ? ` - Check-in: ${parsedAction.check_in_time}` : ''}${parsedAction.check_out_time ? ` - Check-out: ${parsedAction.check_out_time}` : ''}`
+              });
+
+              responseMessage = `✅ Room ${parsedAction.room} booked for ${parsedAction.guest_name}\n📅 ${parsedAction.start_date} to ${parsedAction.end_date}\n💰 Total: ₹${totalAmount.toFixed(0)} (${nights} nights)\n🏨 Booking confirmed!`;
+              commandStatus = "completed";
+            } else {
+              responseMessage = "❌ Please specify room number, guest name, check-in date, and check-out date";
+              commandStatus = "failed";
+            }
+            break;
+
+          case "revenue_check":
+            try {
+              const stats = await storage.getDashboardStats();
+              const period = parsedAction.details?.toLowerCase() || "today";
+              
+              if (period.includes("today")) {
+                responseMessage = `💰 Revenue Today: ₹${stats.revenueToday.toFixed(0)}\n📊 Total Rooms: ${stats.totalRooms}\n🏠 Occupied: ${stats.occupiedRooms}`;
+              } else {
+                responseMessage = `💰 Revenue Today: ₹${stats.revenueToday.toFixed(0)}\n📈 Performance metrics available in dashboard`;
+              }
+              commandStatus = "completed";
+            } catch (error) {
+              responseMessage = "❌ Could not retrieve revenue information";
+              commandStatus = "failed";
+            }
+            break;
+
+          case "occupancy_check":
+            try {
+              const stats = await storage.getDashboardStats();
+              const occupancyRate = ((stats.occupiedRooms / stats.totalRooms) * 100).toFixed(1);
+              const period = parsedAction.details?.toLowerCase() || "current";
+              
+              responseMessage = `🏨 Current Occupancy: ${stats.occupiedRooms}/${stats.totalRooms} rooms (${occupancyRate}%)\n📅 Check-ins Today: ${stats.checkinsToday}\n📤 Check-outs Today: ${stats.checkoutsToday}`;
+              commandStatus = "completed";
+            } catch (error) {
+              responseMessage = "❌ Could not retrieve occupancy information";
+              commandStatus = "failed";
+            }
+            break;
+
           default:
-            responseMessage = `🤖 Parsed command: ${JSON.stringify(parsedAction)}\n💡 Supported actions: block_room, unblock_room, check_in, check_out, room_status`;
+            responseMessage = `🤖 Parsed command: ${JSON.stringify(parsedAction)}\n💡 Supported actions: book_room, check_in, check_out, revenue_check, occupancy_check, block_room, unblock_room, room_status`;
         }
       } catch (processError) {
         console.error("Error processing command:", processError);

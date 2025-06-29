@@ -4,6 +4,7 @@ export interface DashboardStats {
   totalRooms: number;
   occupiedRooms: number;
   checkinsToday: number;
+  checkoutsToday: number;
   revenueToday: number;
 }
 

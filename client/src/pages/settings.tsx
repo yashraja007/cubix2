@@ -350,8 +350,8 @@ export default function Settings() {
                             placeholder="Enter Twilio token..."
                             className="bg-gray-50"
                           />
-                          <Badge variant={process.env.TWILIO_AUTH_TOKEN ? "default" : "destructive"}>
-                            {process.env.TWILIO_AUTH_TOKEN ? "Configured" : "Missing"}
+                          <Badge variant={import.meta.env.VITE_TWILIO_AUTH_TOKEN ? "default" : "destructive"}>
+                            {import.meta.env.VITE_TWILIO_AUTH_TOKEN ? "Configured" : "Missing"}
                           </Badge>
                         </div>
                       </div>

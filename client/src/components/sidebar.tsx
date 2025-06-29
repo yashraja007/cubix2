@@ -15,6 +15,7 @@ const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
   { name: "Room Management", href: "/rooms", icon: Bed },
   { name: "Bookings", href: "/bookings", icon: Calendar },
+  { name: "Calendar View", href: "/calendar", icon: Calendar },
   { name: "WhatsApp Commands", href: "/whatsapp", icon: MessageCircle },
   { name: "Guests", href: "/guests", icon: Users },
   { name: "Reports", href: "/reports", icon: BarChart3 },

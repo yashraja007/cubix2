@@ -11,6 +11,7 @@ import WhatsApp from "@/pages/whatsapp";
 import Guests from "@/pages/guests";
 import Reports from "@/pages/reports";
 import Settings from "@/pages/settings";
+import Calendar from "@/pages/calendar";
 
 function Router() {
   return (
@@ -21,6 +22,7 @@ function Router() {
       <Route path="/whatsapp" component={WhatsApp} />
       <Route path="/guests" component={Guests} />
       <Route path="/reports" component={Reports} />
+      <Route path="/calendar" component={Calendar} />
       <Route path="/settings" component={Settings} />
       <Route component={NotFound} />
     </Switch>

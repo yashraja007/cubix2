@@ -105,7 +105,17 @@ This is a full-stack hotel management system built with React and Express. The a
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes
+
+- June 29, 2025: Successfully migrated from Replit Agent to Replit environment
+- June 29, 2025: Added comprehensive calendar view for room bookings with FullCalendar integration
+- June 29, 2025: Implemented WhatsApp check-in and check-out functionality via natural language processing
+- June 29, 2025: Changed all currency references from USD ($) to Indian Rupees (INR ₹)
+- June 29, 2025: Added calendar navigation to sidebar and enhanced booking visualization
+- June 29, 2025: Updated WhatsApp command examples with check-in/check-out usage instructions
+
 ## Changelog
 
 Changelog:
-- June 27, 2025. Initial setup
+- June 27, 2025: Initial setup
+- June 29, 2025: Major feature additions - calendar view, WhatsApp check-in, INR currency support

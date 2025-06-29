@@ -300,6 +300,81 @@ export async function registerRoutes(app: Express): Promise<Server> {
             }
             break;
 
+          case "check_in":
+            if (parsedAction.room && parsedAction.guest_name) {
+              // Find the room
+              const room = await storage.getRoomByNumber(parsedAction.room);
+              if (!room) {
+                responseMessage = `❌ Could not find room ${parsedAction.room}`;
+                commandStatus = "failed";
+                break;
+              }
+
+              // Find active booking for this room
+              const bookings = await storage.getBookings();
+              const activeBooking = bookings.find(booking => 
+                booking.room.number === parsedAction.room && 
+                booking.status === "confirmed" &&
+                booking.guest.name.toLowerCase().includes(parsedAction.guest_name.toLowerCase())
+              );
+
+              if (activeBooking) {
+                // Perform check-in
+                const checkedInBooking = await storage.checkInGuest(activeBooking.id);
+                if (checkedInBooking) {
+                  responseMessage = `✅ ${parsedAction.guest_name} has been checked into room ${parsedAction.room}\n🏨 Welcome to the hotel!`;
+                  commandStatus = "completed";
+                } else {
+                  responseMessage = `❌ Failed to check in ${parsedAction.guest_name}`;
+                  commandStatus = "failed";
+                }
+              } else {
+                responseMessage = `❌ No confirmed booking found for ${parsedAction.guest_name} in room ${parsedAction.room}`;
+                commandStatus = "failed";
+              }
+            } else {
+              responseMessage = "❌ Please specify both room number and guest name for check-in";
+              commandStatus = "failed";
+            }
+            break;
+
+          case "check_out":
+            if (parsedAction.room) {
+              // Find the room
+              const room = await storage.getRoomByNumber(parsedAction.room);
+              if (!room) {
+                responseMessage = `❌ Could not find room ${parsedAction.room}`;
+                commandStatus = "failed";
+                break;
+              }
+
+              // Find active booking for this room
+              const bookings = await storage.getBookings();
+              const activeBooking = bookings.find(booking => 
+                booking.room.number === parsedAction.room && 
+                booking.status === "checked_in"
+              );
+
+              if (activeBooking) {
+                // Perform check-out
+                const checkedOutBooking = await storage.checkOutGuest(activeBooking.id);
+                if (checkedOutBooking) {
+                  responseMessage = `✅ Guest has been checked out from room ${parsedAction.room}\n👋 Thank you for staying with us!`;
+                  commandStatus = "completed";
+                } else {
+                  responseMessage = `❌ Failed to check out guest from room ${parsedAction.room}`;
+                  commandStatus = "failed";
+                }
+              } else {
+                responseMessage = `❌ No checked-in guest found in room ${parsedAction.room}`;
+                commandStatus = "failed";
+              }
+            } else {
+              responseMessage = "❌ Please specify room number for check-out";
+              commandStatus = "failed";
+            }
+            break;
+
           case "room_status":
             if (parsedAction.room) {
               const room = await storage.getRoomByNumber(parsedAction.room);
@@ -318,7 +393,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             break;
 
           default:
-            responseMessage = `🤖 Parsed command: ${JSON.stringify(parsedAction)}\n💡 Supported actions: block_room, unblock_room, room_status`;
+            responseMessage = `🤖 Parsed command: ${JSON.stringify(parsedAction)}\n💡 Supported actions: block_room, unblock_room, check_in, check_out, room_status`;
         }
       } catch (processError) {
         console.error("Error processing command:", processError);

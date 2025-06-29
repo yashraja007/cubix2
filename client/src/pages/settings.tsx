@@ -36,7 +36,7 @@ export default function Settings() {
   const [hotelEmail, setHotelEmail] = useState("info@grandhotel.com");
   const [defaultCheckIn, setDefaultCheckIn] = useState("15:00");
   const [defaultCheckOut, setDefaultCheckOut] = useState("11:00");
-  const [currency, setCurrency] = useState("USD");
+  const [currency, setCurrency] = useState("INR");
   const [timezone, setTimezone] = useState("America/New_York");
   
   // Notification settings
@@ -184,6 +184,7 @@ export default function Settings() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
+                          <SelectItem value="INR">INR (₹)</SelectItem>
                           <SelectItem value="USD">USD ($)</SelectItem>
                           <SelectItem value="EUR">EUR (€)</SelectItem>
                           <SelectItem value="GBP">GBP (£)</SelectItem>
@@ -336,8 +337,8 @@ export default function Settings() {
                             placeholder="sk-..."
                             className="bg-gray-50"
                           />
-                          <Badge variant={process.env.OPENAI_API_KEY ? "default" : "destructive"}>
-                            {process.env.OPENAI_API_KEY ? "Configured" : "Missing"}
+                          <Badge variant={import.meta.env.VITE_OPENAI_API_KEY ? "default" : "destructive"}>
+                            {import.meta.env.VITE_OPENAI_API_KEY ? "Configured" : "Missing"}
                           </Badge>
                         </div>
                       </div>
@@ -377,6 +378,21 @@ export default function Settings() {
                         <Badge variant="outline">check_in</Badge>
                         <span>Guest check-in</span>
                       </div>
+                      <div className="flex items-center space-x-2">
+                        <Badge variant="outline">check_out</Badge>
+                        <span>Guest check-out</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-3 mt-6">
+                    <h4 className="font-medium">Example Commands</h4>
+                    <div className="space-y-2 text-sm bg-gray-50 p-4 rounded-lg">
+                      <div><strong>Check-in:</strong> "Check in John Smith to room 108"</div>
+                      <div><strong>Check-out:</strong> "Check out room 108"</div>
+                      <div><strong>Block room:</strong> "Block room 205 from July 15 to July 17"</div>
+                      <div><strong>Unblock room:</strong> "Unblock room 205"</div>
+                      <div><strong>Room status:</strong> "What's the status of room 203?"</div>
                     </div>
                   </div>
                   

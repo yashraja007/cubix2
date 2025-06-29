@@ -295,7 +295,7 @@ const Calendar: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <DollarSign size={16} className="text-gray-500" />
                   <span>
-                    ${selectedEvent.totalAmount} (Paid: ${selectedEvent.paidAmount || 0})
+                    ₹{selectedEvent.totalAmount} (Paid: ₹{selectedEvent.paidAmount || 0})
                   </span>
                 </div>
                 

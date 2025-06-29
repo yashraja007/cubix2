@@ -153,7 +153,7 @@ export default function Rooms() {
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">Price/Night:</span>
-                      <span className="font-medium">${parseFloat(room.pricePerNight).toFixed(0)}</span>
+                      <span className="font-medium">₹{parseFloat(room.pricePerNight).toFixed(0)}</span>
                     </div>
                     
                     {room.currentBooking && (

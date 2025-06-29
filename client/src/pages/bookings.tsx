@@ -233,10 +233,10 @@ export default function Bookings() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm font-medium text-gray-900">
-                              ${parseFloat(booking.totalAmount).toFixed(0)}
+                              ₹{parseFloat(booking.totalAmount).toFixed(0)}
                             </div>
                             <div className="text-xs text-gray-500">
-                              Paid: ${parseFloat(booking.paidAmount || "0").toFixed(0)}
+                              Paid: ₹{parseFloat(booking.paidAmount || "0").toFixed(0)}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">

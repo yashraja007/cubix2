@@ -168,7 +168,7 @@ export default function Reports() {
                   <div>
                     <p className="text-sm font-medium text-gray-600">Avg. Booking Value</p>
                     <p className="text-3xl font-bold text-gray-900">
-                      ${averageBookingValue.toFixed(0)}
+                      ₹{averageBookingValue.toFixed(0)}
                     </p>
                   </div>
                   <div className="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center">
@@ -319,7 +319,7 @@ export default function Reports() {
                       <div>
                         <p className="font-medium text-orange-900">Revenue Performance</p>
                         <p className="text-sm text-orange-700">
-                          Average booking value: ${averageBookingValue.toFixed(0)}
+                          Average booking value: ₹{averageBookingValue.toFixed(0)}
                         </p>
                       </div>
                     </div>

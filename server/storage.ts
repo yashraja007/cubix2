@@ -85,7 +85,7 @@ export class MemStorage implements IStorage {
       username: "admin",
       password: "admin123", // In production, this should be hashed
       role: "admin",
-      name: "John Doe",
+      name: "Cubix",
       email: "admin@hotel.com",
     };
     this.users.set(adminUser.id, adminUser);

@@ -47,7 +47,7 @@ export default function Settings() {
   
   // User management
   const [users] = useState([
-    { id: 1, name: "John Doe", email: "john@hotel.com", role: "admin", status: "active" },
+    { id: 1, name: "CUBIX", email: "john@hotel.com", role: "admin", status: "active" },
     { id: 2, name: "Jane Smith", email: "jane@hotel.com", role: "manager", status: "active" },
     { id: 3, name: "Mike Johnson", email: "mike@hotel.com", role: "staff", status: "active" }
   ]);

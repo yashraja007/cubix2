@@ -103,7 +103,7 @@ export default function Dashboard() {
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="text-sm font-medium text-gray-900">John Doe</p>
+                    <p className="text-sm font-medium text-gray-900">CUBIX</p>
                     <p className="text-xs text-gray-500">Hotel Manager</p>
                   </div>
                 </div>
